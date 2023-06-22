@@ -1,26 +1,20 @@
-import { configureStore, legacy_createStore } from "@reduxjs/toolkit";
+import { compose, legacy_createStore } from "@reduxjs/toolkit";
+import rootReducer from "./todos/reducer";
+import {
+  includeMeaningOfLife,
+  sayHiOnDispathch,
+} from "../exampleAddons/enhancers";
 
-const initialState = {
-  value: 0,
-};
-
-function counterReducer(state = initialState, action) {
-  switch (action.type) {
-    case "counter/incremented":
-      return {
-        ...state,
-        value: state.value + 1,
-      };
-    case "counter/decrememnted":
-      return {
-        ...state,
-        value: state.value - 1,
-      };
-    default:
-      return state;
-  }
+let preloadedState;
+const persistedTodosString = localStorage.getItem("todos");
+if (persistedTodosString) {
+  preloadedState = {
+    todos: JSON.parse(persistedTodosString),
+  };
 }
 
-export const store = configureStore({ reducer: counterReducer });
-store.dispatch({ type: "counter/incremented" });
-console.log(store.getState());
+const composedEnhancer = compose(sayHiOnDispathch, includeMeaningOfLife);
+
+const store = legacy_createStore(rootReducer, undefined, composedEnhancer);
+
+export default store;

@@ -1,17 +1,5 @@
 const initialState = {
-  todos: [
-    {
-      id: 0,
-      text: "Learn React",
-      completed: true,
-    },
-    {
-      id: 1,
-      text: "Learn Redux",
-      completed: false,
-      color: "purple",
-    },
-  ],
+  todos: [],
   filters: {
     status: "All",
     colors: [],
@@ -71,12 +59,12 @@ export default function todosReducer(state = initialState, action) {
       const { todoId } = action.payload;
       return {
         ...state,
-        todos: state.todos.map((todo) => {
-          if (todo.id === todoId) {
-            todo.pop();
-          }
-        }),
-        todos1: state.todos.filter((todo) => todo.id === todoId),
+        // todos: state.todos.map((todo) => {
+        //   if (todo.id === todoId) {
+        //     todo.pop();
+        //   }
+        // }),
+        todos: state.todos.filter((todo) => todo.id === action.payload),
       };
     }
     default:
